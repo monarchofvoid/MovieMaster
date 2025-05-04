@@ -26,9 +26,9 @@ CREATE TABLE Movie (
 
 -- Create table: User
 CREATE TABLE User (
-    user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    username TEXT UNIQUE,
-    email TEXT UNIQUE
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) UNIQUE,
+    email VARCHAR(255) UNIQUE
 );
 
 -- Create table: Movie_Actor
@@ -122,3 +122,40 @@ INSERT INTO Review (user_id, movie_id, rating, comment, review_date) VALUES
 (2,8,9.3,'Iconic spaghetti western.','2025-05-03'),
 (3,9,9.1,'Psychological mind-bender.','2025-05-03'),
 (1,10,9.4,'Life is like a box of chocolates.','2025-05-03');
+
+-- View all data in the Director table
+SELECT * FROM Director;
+
+-- View all data in the Actor table
+SELECT * FROM Actor;
+
+-- View all data in the Movie table
+SELECT * FROM Movie;
+
+-- View all data in the User table
+SELECT * FROM User;
+
+-- View all data in the Movie_Actor table
+SELECT * FROM Movie_Actor;
+
+-- View all data in the Review table
+SELECT * FROM Review;
+
+SELECT
+    M.movie_id,
+    M.title AS movie_title,
+    M.genre,
+    M.release_year,
+    D.name AS director_name,
+    A.name AS actor_name,
+    U.username AS reviewed_by,
+    R.rating,
+    R.comment,
+    R.review_date
+FROM Review R
+JOIN Movie M ON R.movie_id = M.movie_id
+JOIN Director D ON M.director_id = D.director_id
+JOIN User U ON R.user_id = U.user_id
+JOIN Movie_Actor MA ON M.movie_id = MA.movie_id
+JOIN Actor A ON MA.actor_id = A.actor_id
+ORDER BY M.movie_id, A.name;
